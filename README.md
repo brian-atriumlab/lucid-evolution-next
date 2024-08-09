@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org/) sample app created to test @lucid-evolution/lucid npm package
+# Lucid Evolution Demo with Next.js
 
-## Getting Started
+This is a **quick and lightweight demo project** showcasing the integration of the [Lucid Evolution](https://github.com/AnastasiaLabs/lucid-evolution) library with a Next.js TypeScript application. It's designed to help you get started with using Lucid Evolution in your own projects, connecting a Cardano wallet, and interacting with the blockchain through Blockfrost.
 
-First, run the development server:
+## About This Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project demonstrates how to set up and test the `@lucid-evolution/lucid` npm package within a Next.js environment. It's a basic proof of concept that allows you to initialize Lucid with Blockfrost as a provider and connect a browser wallet like Eternl.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Feel free to modify the Blockfrost configuration to test different scenarios and explore the capabilities of Lucid Evolution.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Connect Your Wallet
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Click the "Connect Wallet" button to start Lucid with Blockfrost as the provider. You can edit the Blockfrost configuration in the code to test different setups.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the tools and technologies used in this project, check out the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Lucid Evolution GitHub Repository](https://github.com/AnastasiaLabs/lucid-evolution) - Explore the Lucid Evolution library.
+- [Anastasia Labs](https://anastasalabs.com) - Learn more about Anastasia Labs, the creators of Lucid Evolution.
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
