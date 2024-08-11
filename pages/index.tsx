@@ -3,14 +3,14 @@ import styles from "./index.module.css";
 import { Blockfrost, Lucid, WalletApi } from "@lucid-evolution/lucid";
 
 const BLOCKFROST_URL = "https://cardano-preview.blockfrost.io/api/v0";
-const BLOCKFROST_PROJECT = "previewhS7QyZaVPFNhEssfo0l6MxbcvbnM8BKw";
+const BLOCKFROST_PROJECT = "";
 const BROWSER_WALLET_TO_USE = "eternl";
 
 export default function Home() {
   async function handleConnectWallet() {
     try {
       const blockfrost = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT);
-      const lucidEvolution = await Lucid(blockfrost, "Preprod");
+      const lucidEvolution = await Lucid(blockfrost, "Preview");
 
       const wallet = await window?.cardano[BROWSER_WALLET_TO_USE]?.enable();
       lucidEvolution.selectWallet.fromAPI(wallet as WalletApi);
