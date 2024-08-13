@@ -1,12 +1,23 @@
 "use client";
+import { useState } from "react";
 import styles from "./index.module.css";
-import { Blockfrost, Lucid, WalletApi } from "@lucid-evolution/lucid";
+import {
+  Assets,
+  Blockfrost,
+  Lucid,
+  Wallet,
+  WalletApi,
+} from "@lucid-evolution/lucid";
 
 const BLOCKFROST_URL = "https://cardano-preview.blockfrost.io/api/v0";
-const BLOCKFROST_PROJECT = "";
+const BLOCKFROST_PROJECT = "previewhS7QyZaVPFNhEssfo0l6MxbcvbnM8BKw";
 const BROWSER_WALLET_TO_USE = "eternl";
 
 export default function Home() {
+  const [connectedWallet, setConnectedWallet] = useState<Wallet | undefined>(
+    undefined
+  );
+
   async function handleConnectWallet() {
     try {
       const blockfrost = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT);
@@ -14,7 +25,8 @@ export default function Home() {
 
       const wallet = await window?.cardano[BROWSER_WALLET_TO_USE]?.enable();
       lucidEvolution.selectWallet.fromAPI(wallet as WalletApi);
-
+      let connected = lucidEvolution.wallet();
+      setConnectedWallet(connected);
       console.log(
         `Wallet connected (${BROWSER_WALLET_TO_USE}) and Lucid initialized successfully.`
       );
@@ -26,6 +38,51 @@ export default function Home() {
     }
   }
 
+  async function handleSendAdaToSelf() {
+    try {
+      const blockfrost = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT);
+      const lucidEvolution = await Lucid(blockfrost, "Preview");
+
+      if (connectedWallet) {
+        let assets: Assets = { lovelace: 10000000n };
+        let address = await connectedWallet.address();
+
+        let txBuilder = lucidEvolution.newTx().pay.ToAddress(address, assets);
+        let signBuilder = await txBuilder.complete();
+
+        let signed = await signBuilder.sign.withWallet().complete();
+        let submittedTxHash = await signed.submit();
+        if (submittedTxHash) {
+          alert(`submitted tx!: ${submittedTxHash}`);
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to send ada to self:`, error);
+    }
+  }
+
+  async function handleSendAdaToBasket() {
+    try {
+      const blockfrost = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT);
+      const lucidEvolution = await Lucid(blockfrost, "Preview");
+
+      if (connectedWallet) {
+        let assets: Assets = { lovelace: 10000000n };
+        let address = await connectedWallet.address();
+
+        // let txBuilder = lucidEvolution.newTx().pay.ToAddress(address, assets);
+        // let signBuilder = await txBuilder.complete();
+
+        // let signed = await signBuilder.sign.withWallet().complete();
+        // let submittedTxHash = await signed.submit();
+        // if (submittedTxHash) {
+        //   alert(`submitted tx!: ${submittedTxHash}`);
+        // }
+      }
+    } catch (error) {
+      console.error(`Failed to send ada to self:`, error);
+    }
+  }
   return (
     <main className={styles.main}>
       <div className={styles.title}>
@@ -34,13 +91,28 @@ export default function Home() {
       </div>
       <div className={styles.description}>
         <p>
-          INITIALIZE{" "}
-          <span>LUCID EVOLUTION</span>
-          {" "}USING <span className={styles.blockfrost}>BLOCKFROST</span>
+          INITIALIZE <span>LUCID EVOLUTION</span> USING{" "}
+          <span className={styles.blockfrost}>BLOCKFROST</span>
         </p>
       </div>
-      <div className={styles.button} onClick={handleConnectWallet}>
-        CONNECT {BROWSER_WALLET_TO_USE.toUpperCase()} WALLET
+      <div
+        className={styles.button}
+        onClick={handleConnectWallet}
+        style={{
+          opacity: connectedWallet ? 0.5 : 1,
+          pointerEvents: connectedWallet ? "none" : "auto",
+          cursor: connectedWallet ? "none" : "pointer",
+        }}
+      >
+        {connectedWallet
+          ? "CONNECTED"
+          : `CONNECT ${BROWSER_WALLET_TO_USE.toUpperCase()} WALLET`}
+      </div>
+      <div className={styles.button} onClick={handleSendAdaToSelf}>
+        SEND ADA TO SELF
+      </div>
+      <div className={styles.button} onClick={handleSendAdaToBasket}>
+        SEND ADA TO BASKET
       </div>
     </main>
   );
