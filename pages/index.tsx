@@ -42,10 +42,12 @@ export default function Home() {
     try {
       const blockfrost = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT);
       const lucidEvolution = await Lucid(blockfrost, "Preview");
-
-      if (connectedWallet) {
+      const wallet = await window?.cardano[BROWSER_WALLET_TO_USE]?.enable();
+      lucidEvolution.selectWallet.fromAPI(wallet as WalletApi);
+      let connected = lucidEvolution.wallet();
+      if (connected) {
         let assets: Assets = { lovelace: 10000000n };
-        let address = await connectedWallet.address();
+        let address = await connected.address();
 
         let txBuilder = lucidEvolution.newTx().pay.ToAddress(address, assets);
         let signBuilder = await txBuilder.complete();
